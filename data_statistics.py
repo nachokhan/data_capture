@@ -108,9 +108,6 @@ class DataStatistics():
         Returns:
             List: A list of cumulative sums.
         """
+        cum_sum_data = [sum(data[:n]) for n in range(len(data))]
 
-        cum_sum_data = []
-        cum_sum_data.append(0)
-        for n in range(1, len(data)):
-            cum_sum_data.append(cum_sum_data[n-1] + data[n-1])
         return cum_sum_data
