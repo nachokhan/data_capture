@@ -8,6 +8,7 @@ class DataStatistics():
     def __init__(self, data: List) -> None:
         self._greater: List = []
         self._less: List = []
+        self._data = data
 
         self._update_stats(data)
 
@@ -16,6 +17,10 @@ class DataStatistics():
 
     def greater(self, number) -> int:
         return self._greater[number]
+
+    def between(self, n1, n2) -> int:
+        out_of_range = self.greater(n2) + self.less(n1)
+        return self._greater[0] - out_of_range
 
     def _update_stats(self, data: List) -> None:
         self._less = self._generate_cumulative_sum(data)
