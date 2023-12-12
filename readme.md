@@ -19,7 +19,7 @@ In order to pacefully run the project/test you might need to install the needed 
 Once activated you environment (step 1), run:
 
 ```bash
-pip install -r requiremenets.txt
+pip install -r requirements.txt
 ```
 
 
@@ -33,7 +33,7 @@ pytest
 
 For a more verbose answer:
 ```bash
-pytest -vv
+pytest -v
 ```
 
 Enjoy the green ticks :)
