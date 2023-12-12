@@ -1,3 +1,6 @@
+from data_statistics import DataStatistics
+
+
 class DataCapture():
 
     def __init__(self) -> None:
@@ -11,3 +14,6 @@ class DataCapture():
             raise ValueError("Value must be positive and less than 1000")
 
         self.numbers.append(number)
+
+    def build_stats(self):
+        return DataStatistics(self.numbers)
