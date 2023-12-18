@@ -23,11 +23,8 @@ class DataStatistics():
             data (List): The list of data for which statistics will be calculated.
         """
 
-        self._greater: List = []
-        self._less: List = []
         self._data = data
-
-        self._update_stats(data)
+        self._less, self._greater = self._generate_cumulative_sum(data)
 
     def less(self, number) -> int:
         """
@@ -87,27 +84,38 @@ class DataStatistics():
         if not (0 <= number < len(self._data)):
             raise ValueError()
 
-    def _update_stats(self, data: List) -> None:
-        """
-        Update the cumulative counts of elements less and greater than each index.
-
-        Args:
-            data (List): The input data for which statistics will be updated.
-        """
-
-        self._less = self._generate_cumulative_sum(data)
-        self._greater = self._generate_cumulative_sum(data[::-1])[::-1]
-
     def _generate_cumulative_sum(self, data) -> List:
         """
-        Generate the cumulative sum of elements in the input data.
+        Generate two lists representing the cumulative sum of elements in the input data for calculations
+        of 'less than' and 'greater than' statistics. 
+
+        The method iterates through the input list 'data' once. For each element at index 'n', it updates
+        the cumulative sum for elements 'less than' the current index and 'greater than' the corresponding
+        reverse index (values-n-1).
+
+        This approach allows for efficient calculation of cumulative sums in a single pass through the data,
+        ensuring linear complexity both in terms of time and space.
 
         Args:
-            data: The input data.
+            data: The input data, a list of integers.
 
         Returns:
-            List: A list of cumulative sums.
+            tuple: A tuple containing two lists - the first list ('cum_less') contains the cumulative sum
+            of elements less than each index, and the second list ('cum_greater') contains the cumulative
+            sum of elements greater than each reverse index.
         """
-        cum_sum_data = [sum(data[:n]) for n in range(len(data))]
+        values = len(data)
 
-        return cum_sum_data
+        cum_less = [0] * values
+        cum_greater = [0] * values
+
+        total_less = 0
+        total_greater = 0
+
+        for n in range(0, values):
+            cum_less[n] = total_less
+            cum_greater[values-n-1] = total_greater
+            total_less += data[n]
+            total_greater += data[values-n-1]
+
+        return cum_less, cum_greater
